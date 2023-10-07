@@ -19,6 +19,10 @@ load("@build_bazel_rules_apple//apple/internal:rule_attrs.bzl", "rule_attrs")
 load("@build_bazel_rules_apple//apple/internal:apple_toolchains.bzl", "AppleMacToolsToolchainInfo")
 load("@build_bazel_rules_apple//apple:providers.bzl", "AppleResourceBundleInfo", "AppleResourceInfo")
 load("//rules:transition_support.bzl", "transition_support")
+load(
+    "@build_bazel_rules_apple//apple/internal:features_support.bzl",
+    "features_support",
+)
 load("//rules:utils.bzl", "bundle_identifier_for_bundle")
 load("@bazel_skylib//lib:dicts.bzl", "dicts")
 
@@ -51,8 +55,13 @@ def _precompiled_apple_resource_bundle_impl(ctx):
     # passing a swift_module attr
     fake_rule_label = Label("//fake_package:" + (ctx.attr.swift_module or bundle_name))
 
+    features = features_support.compute_enabled_features(
+        requested_features = ctx.features,
+        unsupported_features = ctx.disabled_features,
+    )
     platform_prerequisites = platform_support.platform_prerequisites(
         apple_fragment = ctx.fragments.apple,
+        build_settings = ctx.attr._xplat_toolchain[AppleXPlatToolsToolchainInfo],
         config_vars = ctx.var,
         device_families = ["iphone", "ipad"],
         explicit_minimum_os = None,
@@ -61,7 +70,7 @@ def _precompiled_apple_resource_bundle_impl(ctx):
         platform_type_string = platform_type,
         uses_swift = False,
         xcode_version_config = ctx.attr._xcode_config[apple_common.XcodeVersionConfig],
-        features = [],
+        features = features,
     )
     partials_args = dict(
         actions = ctx.actions,
