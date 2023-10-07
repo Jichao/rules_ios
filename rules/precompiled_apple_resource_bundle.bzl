@@ -228,66 +228,68 @@ _precompiled_apple_resource_bundle = rule(
     attrs = dicts.add(
         # This includes all the undocumented tool requirements for this rule
         rule_attrs.common_tool_attrs,
-        infoplists = attr.label_list(
-            allow_files = [".plist"],
-            default = [
-                Label("@build_bazel_rules_ios//rules/library:resource_bundle.plist"),
-            ],
-        ),
-        bundle_name = attr.string(
-            mandatory = False,
-            doc = "The name of the resource bundle. Defaults to the target name.",
-        ),
-        bundle_id = attr.string(
-            mandatory = False,
-            doc = "The bundle identifier of the resource bundle.",
-        ),
-        swift_module = attr.string(
-            mandatory = False,
-            doc = "The swift module to use when compiling storyboards, nibs and xibs that contain a customModuleProvider",
-        ),
-        resources = attr.label_list(
-            allow_empty = True,
-            allow_files = True,
-            doc = "The list of resources to be included in the resource bundle.",
-        ),
-        bundle_extension = attr.string(
-            mandatory = False,
-            default = ".bundle",
-            doc = "The extension of the resource bundle.",
-        ),
-        platforms = attr.string_dict(
-            mandatory = False,
-            default = {},
-            doc = """A dictionary of platform names to minimum deployment targets.
+        {
+            "infoplists": attr.label_list(
+                allow_files = [".plist"],
+                default = [
+                    Label("@build_bazel_rules_ios//rules/library:resource_bundle.plist"),
+                ],
+            ),
+            "bundle_name": attr.string(
+                mandatory = False,
+                doc = "The name of the resource bundle. Defaults to the target name.",
+            ),
+            "bundle_id": attr.string(
+                mandatory = False,
+                doc = "The bundle identifier of the resource bundle.",
+            ),
+            "swift_module": attr.string(
+                mandatory = False,
+                doc = "The swift module to use when compiling storyboards, nibs and xibs that contain a customModuleProvider",
+            ),
+            "resources": attr.label_list(
+                allow_empty = True,
+                allow_files = True,
+                doc = "The list of resources to be included in the resource bundle.",
+            ),
+            "bundle_extension": attr.string(
+                mandatory = False,
+                default = ".bundle",
+                doc = "The extension of the resource bundle.",
+            ),
+            "platforms": attr.string_dict(
+                mandatory = False,
+                default = {},
+                doc = """A dictionary of platform names to minimum deployment targets.
 If not given, the resource bundle will be built for the platform it inherits from the target that uses
 the bundle as a dependency.""",
-        ),
-        _product_type = attr.string(default = apple_product_type.bundle),
-        # This badly named property is required even though this isn't an ipa
-        ipa_post_processor = attr.label(
-            allow_files = True,
-            executable = True,
-            cfg = "exec",
-        ),
-        environment_plist = attr.label(
-            allow_single_file = True,
-        ),
-        _xcode_config = attr.label(
-            default = configuration_field(
-                name = "xcode_config_label",
-                fragment = "apple",
             ),
-            doc = "The xcode config that is used to determine the deployment target for the current platform.",
-        ),
-        _allowlist_function_transition = attr.label(
-            default = "@bazel_tools//tools/allowlists/function_transition_allowlist",
-            doc = "Needed to allow this rule to have an incoming edge configuration transition.",
-        ),
-        _toolchain = attr.label(
-            default = Label("@build_bazel_rules_apple//apple/internal:mac_tools_toolchain"),
-            providers = [[AppleMacToolsToolchainInfo]],
-        ),
+            "_product_type": attr.string(default = apple_product_type.bundle),
+            # This badly named property is required even though this isn't an ipa
+            "ipa_post_processor": attr.label(
+                allow_files = True,
+                executable = True,
+                cfg = "exec",
+            ),
+            "environment_plist": attr.label(
+                allow_single_file = True,
+            ),
+            "_xcode_config": attr.label(
+                default = configuration_field(
+                    name = "xcode_config_label",
+                    fragment = "apple",
+                ),
+                doc = "The xcode config that is used to determine the deployment target for the current platform.",
+            ),
+            "_allowlist_function_transition": attr.label(
+                default = "@bazel_tools//tools/allowlists/function_transition_allowlist",
+                doc = "Needed to allow this rule to have an incoming edge configuration transition.",
+            ),
+            "_toolchain": attr.label(
+                default = Label("@build_bazel_rules_apple//apple/internal:mac_tools_toolchain"),
+                providers = [[AppleMacToolsToolchainInfo]],
+            ),
+        },
     ),
 )
 
