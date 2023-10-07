@@ -23,6 +23,11 @@ load(
     "@build_bazel_rules_apple//apple/internal:features_support.bzl",
     "features_support",
 )
+load(
+    "@build_bazel_rules_apple//apple/internal:apple_toolchains.bzl",
+    "AppleXPlatToolsToolchainInfo",
+    "apple_toolchain_utils",
+)
 load("//rules:utils.bzl", "bundle_identifier_for_bundle")
 load("@bazel_skylib//lib:dicts.bzl", "dicts")
 
