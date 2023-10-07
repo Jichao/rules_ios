@@ -227,7 +227,7 @@ _precompiled_apple_resource_bundle = rule(
     cfg = transition_support.apple_rule_transition,
     attrs = dicts.add(
         # This includes all the undocumented tool requirements for this rule
-        rule_attrs.common_tool_attrs,
+        rule_attrs.common_tool_attrs(),
         {
             "infoplists": attr.label_list(
                 allow_files = [".plist"],
