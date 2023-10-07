@@ -15,7 +15,7 @@ load("@build_bazel_rules_apple//apple/internal:partials.bzl", "partials")
 load("@build_bazel_rules_apple//apple/internal:platform_support.bzl", "platform_support")
 load("@build_bazel_rules_apple//apple/internal:resources.bzl", "resources")
 load("@build_bazel_rules_apple//apple/internal:resource_actions.bzl", "resource_actions")
-load("@build_bazel_rules_apple//apple/internal:rule_factory.bzl", "rule_factory")
+load("@build_bazel_rules_apple//apple/internal:rule_attrs.bzl", "rule_attrs")
 load("@build_bazel_rules_apple//apple/internal:apple_toolchains.bzl", "AppleMacToolsToolchainInfo")
 load("@build_bazel_rules_apple//apple:providers.bzl", "AppleResourceBundleInfo", "AppleResourceInfo")
 load("//rules:transition_support.bzl", "transition_support")
@@ -226,7 +226,7 @@ _precompiled_apple_resource_bundle = rule(
     cfg = transition_support.apple_rule_transition,
     attrs = dict(
         # This includes all the undocumented tool requirements for this rule
-        rule_factory.common_tool_attributes,
+        rule_attrs.common_tool_attrs,
         infoplists = attr.label_list(
             allow_files = [".plist"],
             default = [
