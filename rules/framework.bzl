@@ -624,7 +624,6 @@ def _platform_prerequisites(ctx, rule_descriptor, platform_type):
         config_vars = ctx.var,
         cpp_fragment = ctx.fragments.cpp,
         device_families = rule_descriptor.allowed_device_families,
-        disabled_features = ctx.disabled_features,
         explicit_minimum_deployment_os = ctx.attr.minimum_deployment_os_version,
         explicit_minimum_os = ctx.attr.minimum_os_version,
         features = ctx.features,

@@ -61,7 +61,6 @@ def _precompiled_apple_resource_bundle_impl(ctx):
         platform_type_string = platform_type,
         uses_swift = False,
         xcode_version_config = ctx.attr._xcode_config[apple_common.XcodeVersionConfig],
-        disabled_features = [],
         features = [],
     )
     partials_args = dict(
