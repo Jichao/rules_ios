@@ -20,6 +20,7 @@ load("@build_bazel_rules_apple//apple/internal:apple_toolchains.bzl", "AppleMacT
 load("@build_bazel_rules_apple//apple:providers.bzl", "AppleResourceBundleInfo", "AppleResourceInfo")
 load("//rules:transition_support.bzl", "transition_support")
 load("//rules:utils.bzl", "bundle_identifier_for_bundle")
+load("@bazel_skylib//lib:dicts.bzl", "dicts")
 
 _FAKE_BUNDLE_PRODUCT_TYPE_BY_PLATFORM_TYPE = {
     "ios": apple_product_type.application,
@@ -224,7 +225,7 @@ _precompiled_apple_resource_bundle = rule(
     implementation = _precompiled_apple_resource_bundle_impl,
     fragments = ["apple"],
     cfg = transition_support.apple_rule_transition,
-    attrs = dict(
+    attrs = dicts.add(
         # This includes all the undocumented tool requirements for this rule
         rule_attrs.common_tool_attrs,
         infoplists = attr.label_list(
